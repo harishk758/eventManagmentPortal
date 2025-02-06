@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TeamMember extends Model
 {
     use HasFactory;
+
+    public function checklistTasks()
+    {
+        return $this->hasMany(ChecklistTask::class, 'member_id');
+    }
 }

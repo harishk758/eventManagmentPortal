@@ -1,232 +1,231 @@
-{{-- @extends('backend.master')
-@section('content')
-    <div class="main_screen">
-        <!-- COMMON CODE END -->
-        <div class="top_bar d-flex align-items-center">
-            <a href="{{ route('booth') }}" class="text-white">
-                <i class="bi bi-arrow-left-short">
-                </i>
-            </a>
-            <div class="page_heading text-center w-100">
-                Booth Details
-            </div>
-        </div>
+@extends('backend.master')
+  @section('content')
 
-        <div class="event_form p-3">
-            <div class="details">
-                <form action="{{ route('booth_store') }}" method="POST" id="booth-form-container">
-                    @csrf
-                        <div class="booth-form">
-                            <div class="page_title text-center my-md-4 my-lg-2">
-                                <span>Booth Details 1</span>
-                            </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label for="boothsize1" class="form-label">Select Event</label>
-                                    <select name="event_id" id="event_id">
-                                        <option value="">Select Event</option>
-                                        @foreach ($events as $event)
-                                            <option value="{{ $event->id }}">{{ $event->event_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="text_field30">
-                                    <label for="boothsize1" class="form-label">Booth Size</label>
-                                    <input type="text" id="Boothsize1" placeholder="Enter Name"
-                                        name="booths[booth_size]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="bootharea1" class="form-label">Booth Area (mSq)</label>
-                                    <input type="text" id="bootharea1" placeholder="Booth Area"
-                                        name="booths[booth_area]">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label for="boothcost1" class="form-label">Booth Cost / mSq</label>
-                                    <input type="text" id="boothcost1" placeholder="Booth Cost Per SqM"
-                                        name="booths[booth_cost]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="boothsupervisor1" class="form-label">Booth Supervisor</label>
-                                    <input type="text" id="boothsupervisor1" placeholder="Enter Name"
-                                        name="booths[booth_supervisor]">
-                                </div>
-
-                                <div class="text_field30">
-                                    <label for="boothreq1" class="form-label">Booth Requirements</label>
-                                    <input type="text" id="boothreq1" placeholder="Enter Booth Requirements"
-                                        name="booths[booth_requirements]">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label for="vendorname1" class="form-label">Vendor Name</label>
-                                    <input type="text" id="vendorname1" placeholder="Enter Vendor Name"
-                                        name="vendors[vendor_name]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="vendorcomp1" class="form-label">Vendor Company</label>
-                                    <input type="text" id="vendorcomp1" placeholder="Vendor Company"
-                                        name="vendors[vendor_company]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="vendorcountry1" class="form-label">Country</label>
-                                    <input type="text" id="vendorcountry1" placeholder="Enter Country"
-                                        name="vendors[country_id]">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label for="vendoremail1" class="form-label">Vendor Email</label>
-                                    <input type="email" id="vendoremail1" placeholder="Enter Email"
-                                        name="vendors[vendor_email]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="vendoraddress1" class="form-label">Vendor Address</label>
-                                    <input type="text" id="vendoraddress1" placeholder="Enter Address"
-                                        name="vendors[vendor_address]">
-                                </div>
-                                <div class="text_field30">
-                                    <label for="vendorcity1" class="form-label">Vendor City</label>
-                                    <input type="text" id="vendorcity1" placeholder="Enter City Name"
-                                        name="vendors[vendor_city]">
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="w-100">
-                                    <label for="vendordescription1" class="form-label">Vendor Description</label>
-                                    <input type="text" id="vendordescription1" placeholder="Enter Description"
-                                        name="vendors[vendor_description]">
-                                </div>
-                            </div>
-                            <div class="btn-grp d-flex gap-3 justify-content-end">
-                                <a href="javascript:void(0)" class="btn btn-success add-booth">Add Booth</a>
-                                <button type="submit" class="btn btn-primary">Submit Details</button>
-                                <a href="javascript:void(0)" class="btn btn-danger remove-booth">Remove Booth</a>
-                            </div>
-                        </div>
-                </form>
-            </div>
+  <style>
+    .error {
+        color: red;
+    }
+</style>
+  <div class="main_screen">
+    <div class="top_bar d-flex align-items-center">
+        <a href="{{ route('booth') }}" class="text-white">
+            <i class="bi bi-arrow-left-short"></i>
+        </a>
+        <div class="page_heading text-center w-100">
+            Booth Details
         </div>
     </div>
-@endsection --}}
-
-@extends('backend.master')
-@section('content')
-    <div class="main_screen">
-        <div class="top_bar d-flex align-items-center">
-            <a href="{{ route('booth') }}" class="text-white">
-                <i class="bi bi-arrow-left-short"></i>
-            </a>
-            <div class="page_heading text-center w-100">
-                Booth Details
-            </div>
+    @if (session()->has('success'))
+        <div class="alert alert-success text-center">
+            {{ session()->get('success') }}
         </div>
-        @if (session()->has('success'))
-            <div class="alert alert-success text-center">
-                {{ session()->get('success') }}
-            </div>
-        @endif
-        @if (session()->has('error'))
-            <div class="alert alert-danger">
-                {{ session()->get('error') }}
-            </div>
-        @endif
-        <div class="event_form p-3">
-            <div class="details">
-                <form action="{{ route('booth_store') }}" method="POST" id="booth-form-container">
-                    @csrf
-                    <div id="booth-wrapper">
-                        <div class="booth-form" data-index="0">
-                            <div class="page_title text-center my-md-4 my-lg-2">
-                                <span>Booth Details 1</span>
+    @endif
+    @if (session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+    <div class="event_form p-3">
+        <div class="details">
+            <form action="{{ route('booth_store') }}" method="POST" id="booth-form-container">
+                @csrf
+                <div id="booth-wrapper">
+                    <div class="booth-form" data-index="0">
+                        <div class="page_title text-center my-md-4 my-lg-2">
+                            <span>Booth Details</span>
+                        </div>
+                        <div class="row gap-y15 justify-content-between">
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Select Event</label>
+                                <select name="event_id" class="event_id">
+                                    <option value="">Select Event</option>
+                                    @foreach ($events as $event)
+                                        <option value="{{ $event->id }}">{{ $event->event_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label class="form-label">Select Event</label>
-                                    <select name="booths[0][event_id]" class="event_id">
-                                        <option value="">Select Event</option>
-                                        @foreach ($events as $event)
-                                            <option value="{{ $event->id }}">{{ $event->event_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Booth Size</label>
-                                    <input type="text" placeholder="Enter Size" name="booths[0][booth_size]" required>
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Booth Area (mSq)</label>
-                                    <input type="text" placeholder="Booth Area" name="booths[0][booth_area]">
-                                    
-                                </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Name</label>
+                                <input type="text" placeholder="Enter Name" name="booth_name" required>
                             </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label class="form-label">Booth Cost / mSq</label>
-                                    <input type="text" placeholder="Booth Cost" name="booths[0][booth_cost]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Booth Supervisor</label>
-                                    <input type="text" placeholder="Enter Name" name="booths[0][booth_supervisor]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Booth Requirements</label>
-                                    <input type="text" placeholder="Enter Requirements"
-                                        name="booths[0][booth_requirements]">
-                                </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Size</label>
+                                <input type="text" placeholder="Enter Size" name="booth_size">
                             </div>
-
-                            <!-- Vendor Details -->
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label class="form-label">Vendor Name</label>
-                                    <input type="text" placeholder="Vendor Name" name="booths[0][vendor][vendor_name]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Vendor Company</label>
-                                    <input type="text" placeholder="Vendor Company"
-                                        name="booths[0][vendor][vendor_company]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Country</label>
-                                    <input type="text" placeholder="Country" name="booths[0][vendor][country_id]">
-                                </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Cost / mSq</label>
+                                <input type="text" placeholder="Booth Cost" name="booth_cost">
                             </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="text_field30">
-                                    <label class="form-label">Vendor Email</label>
-                                    <input type="email" placeholder="Vendor Email" name="booths[0][vendor][vendor_email]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Vendor Address</label>
-                                    <input type="text" placeholder="Vendor Address"
-                                        name="booths[0][vendor][vendor_address]">
-                                </div>
-                                <div class="text_field30">
-                                    <label class="form-label">Vendor City</label>
-                                    <input type="text" placeholder="Vendor City" name="booths[0][vendor][vendor_city]">
-                                </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Supervisor</label>
+                                <input type="text" placeholder="Enter Name" name="booth_supervisor">
                             </div>
-                            <div class="d-flex justify-content-between input_row">
-                                <div class="w-100">
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Requirements</label>
+                                <input type="text" placeholder="Enter Requirements"
+                                    name="booth_requirements">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Vendor Name</label>
+                                <input type="text" placeholder="Vendor Name" name="vendor_name">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Vendor Company</label>
+                                <input type="text" placeholder="Vendor Company"
+                                    name="vendor_company">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Country</label>
+                                <input type="text" placeholder="Country" name="country_id">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Vendor Email</label>
+                                <input type="email" placeholder="Vendor Email" name="vendor_email">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Vendor Address</label>
+                                <input type="text" placeholder="Vendor Address"
+                                    name="vendor_address">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Vendor City</label>
+                                <input type="text" placeholder="Vendor City" name="vendor_city">
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label class="form-label">Booth Area (mSq)</label>
+                                <input type="text" placeholder="Booth Area" name="booth_area">
+                            </div>
+                            <div class="col-lg-8">
                                     <label class="form-label">Vendor Description</label>
-                                    <input type="text" placeholder="Vendor Description"
-                                        name="booths[0][vendor][vendor_description]">
-                                </div>
+                                    <textarea class="form-control" id="" rows="3" placeholder="Vendor Description" name="vendor_description"></textarea>
                             </div>
-
-                            <div class="btn-grp d-flex gap-3 justify-content-end">
-                                <button type="button" class="btn btn-success add-booth">Add Booth</button>
-                                <button type="submit" class="btn btn-primary">Submit Details</button>
-                                <button type="button" class="btn btn-danger remove-booth" style="display: none;">Remove
-                                    Booth</button>
-                            </div>
+                            
+                        </div>
+                        <div class="btn-grp d-flex gap-3 justify-content-start mt-4">
+                            {{-- <button type="button" class="btn btn-success add-booth">Add Booth</button> --}}
+                            <button type="submit" class="btn btn-primary">Submit Details</button>
+                            <button type="button" class="btn btn-danger remove-booth" style="display: none;">Remove
+                                Booth</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+<script>
+    $('#booth-form-container').validate({
+        rules: {
+            booth_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 20,
+                // regex: /^[^0-9]+$/,
+                notWhitespaceOnly: true,
+                noLeadingOrTrailingSpaces: true,
+                noSpecialCharsForExperience: true
+            },
+            event_id: {
+                required: true
+            },
+            booth_size: {
+                required: true,
+                noSpecialCharsForExperience: true
+                // notWhitespaceOnly: true,
+                // noLeadingOrTrailingSpaces: true,
+                // noSpecialCharsForExperience: true
+            },
+            booth_cost: {
+                required: true,
+                noSpecialCharsForExperience: true
+                // notWhitespaceOnly: true,
+                // noLeadingOrTrailingSpaces: true,
+                // noSpecialCharsForExperience: true
+            },
+            booth_supervisor: {
+                required: true,
+                noSpecialCharsForExperience: true
+                // notWhitespaceOnly: true,
+                // noLeadingOrTrailingSpaces: true,
+                // noSpecialCharsForExperience: true
+            },
+            booth_requirements: {
+                required: true,
+                noSpecialCharsForExperience: true
+            },
+            vendor_name: {
+                required: true,
+                noSpecialCharsForExperience: true
+            },
+            vendor_company: {
+                required: true,
+                noSpecialCharsForExperience: true
+            },
+            country_id: {
+                required: true,
+                noSpecialCharsForExperience: true
+            },
+            vendor_email: {
+                required: true
+            },
+            vendor_address: {
+                required: true
+            },
+            vendor_city: {
+                required: true
+            }
+        },
+        messages: {
+            booth_name: {
+                required: 'Booth name is required.',
+                minlength: 'Please enter at least 3 characters.',
+                maxlength: 'Maximum length is 20 characters.',
+                //   regex: 'Numbers are not allowed.'
+            },
+            event_id: {
+                required: 'Event is required'
+            },
+            booth_size: {
+                required: 'Booth Size is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+           
+            booth_cost: {
+                required: 'Booth Cose is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            booth_supervisor: {
+                required: 'Booth Supervisor is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            booth_requirements: {
+                required: 'Booth Requirements is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            booth_requirements: {
+                required: 'Booth Requirements is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            vendor_name: {
+                required: 'Vendor Name is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            vendor_company: {
+                required: 'Vendor Company is required',
+                noSpecialCharsForAddress: 'Special Chars Not Allow'
+            },
+            vendor_email: {
+                required: 'Vendor email is required'
+            },
+            vendor_address: {
+                required: 'Vendor address is required'
+            },
+            vendor_city: {
+                required: 'Vendor city is required'
+            }
+        }
+    });
+    </script>
+
 @endsection

@@ -3,37 +3,37 @@
     <ul>
       <li class="list_item">
         <a href="{{ route('home')}}" class="active" id="tab">
-          <img src="./assets/images/dashboard.svg" alt="Dashboard" />
+          <img src="{{ asset('assets/images/dashboard.svg')}}" alt="Dashboard" />
           <span>DashBoard</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>
       <li class="list_item">
         <a href="{{ route('event')}}" id="tab">
-          <img src="./assets/images/event.svg" alt="Events" />
+          <img src="{{ asset('assets/images/event.svg')}}" alt="Events" />
           <span>Event</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>
       <li class="list_item">
         <a href="{{ route('booth')}}" id="tab">
-          <img src="./assets/images/event.svg" alt="Evnets" />
+          <img src="{{ asset('assets/images/event.svg')}}" alt="Evnets" />
           <span>Event Booth</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>
       <li class="list_item">
         <a href="{{ route('team.index')}}" id="tab">
-          <img src="./assets/images/team.svg" alt="Team" />
+          <img src="{{ asset('assets/images/team.svg')}}" alt="Team" />
           <span>Team</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>
       <li class="list_item">
-        <a href="javascript:void(0)" id="tab">
-          <img src="./assets/images/checklist.svg" alt="Checklist" />
+        <a href="{{ route('checklist_task.main')}}" id="tab">
+          <img src="{{ asset('assets/images/checklist.svg')}}" alt="Checklist" />
           <span>Checklist</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>
       <li class="list_item">
-        <a href="javascript:void(0)" id="tab">
-          <img src="./assets/images/expense.svg" alt="Expenses" />
+        <a href="{{ route('expenses.main')}}" id="tab">
+          <img src="{{ asset('assets/images/expense.svg')}}" alt="Expenses" />
           <span>Expenses</span><i class="bi bi-chevron-down"></i>
         </a>
       </li>

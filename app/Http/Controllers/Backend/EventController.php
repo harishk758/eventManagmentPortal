@@ -14,7 +14,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view('backend.event.index',compact('events'));
+        return view('backend.event.index', compact('events'));
     }
 
     /**
@@ -46,26 +46,19 @@ class EventController extends Controller
 
         Event::create([
             'event_name' => $validatedData['event_name'],
+            'event_category' => $validatedData['event_category'],
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
-            'country' => $validatedData['country'],
             'address' => $validatedData['address'],
             'city' => $validatedData['city'],
+            'country' => $validatedData['country'],
             'creator_name' => $validatedData['creator_name'],
             'creator_designation' => $validatedData['creator_designation'],
             'event_description' => $validatedData['event_description'],
-            'event_category' => $validatedData['event_category']
+
         ]);
 
         return redirect()->route('event')->with('success', 'Event created successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -73,22 +66,82 @@ class EventController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $edit = Event::find($id);
+        return view('backend.event.edit', compact('edit'));
     }
+
+    public function update(Request $request, $id)
+    {
+        // dd($request->all());
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'country' => 'required|string',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'creator_name' => 'required|string',
+            'creator_designation' => 'required|string',
+            'event_description' => 'required|string',
+            'event_category' => 'required|string',
+        ]);
+        
+        // Find the event by its ID
+        $event = Event::findOrFail($id);
+
+        // Update the event with the validated data
+        $event->update([
+            'event_name' => $validatedData['event_name'],
+            'event_category' => $validatedData['event_category'],
+            'start_date' => $validatedData['start_date'],
+            'end_date' => $validatedData['end_date'],
+            'address' => $validatedData['address'],
+            'city' => $validatedData['city'],
+            'country' => $validatedData['country'],
+            'creator_name' => $validatedData['creator_name'],
+            'creator_designation' => $validatedData['creator_designation'],
+            'event_description' => $validatedData['event_description'],
+        ]);
+
+        // Redirect back with a success message
+        return redirect()->route('event')->with('success', 'Event updated successfully!');
+    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy($id)
+{
+    $event = Event::find($id);
+    if (!$event) {
+        return redirect()->back()->with('error', 'Event not found.');
     }
+    try {
+        $event->delete();
+        return redirect()->route('event.index')->with('success', 'Event deleted successfully.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'An error occurred while deleting the event.');
+    }
+}
+
+    // public function destroy(string $id){
+    //     $delete = Event::find($id);
+    //     if (!$delete){
+    //         return redirect()->back()->with('error', 'Record not found.');
+    //     }
+    
+    //     try{
+    //         $delete->delete();
+    //         return redirect()->back()->with('success', 'Record deleted successfully.');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'An error occurred while deleting the record.');
+    //     }
+    // }
 }

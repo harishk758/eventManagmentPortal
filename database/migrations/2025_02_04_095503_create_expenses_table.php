@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event__team__assignments', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('event_id');
-            $table->unsignedBigInteger('booth_id');
-            $table->unsignedBigInteger('member_id');
-            $table->text('description');
+            $table->string('expense_name');
+            $table->string('paid_by');
+            $table->string('ammount');
+            $table->string('contact_number');
+            $table->string('category');
+            $table->text('expense_desgination');
+            $table->string('upload_img')->nullable();
+            $table->timestamp('due_date');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->foreign('booth_id')->references('id')->on('booths')->onDelete('cascade');
-            $table->foreign('member_id')->references('id')->on('team__members')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event__team__assignments');
+        Schema::dropIfExists('expenses');
     }
 };

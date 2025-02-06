@@ -16,6 +16,6 @@ class Booth extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(Vendor::class);
+        return $this->hasOne(Vendor::class);
     }
 }

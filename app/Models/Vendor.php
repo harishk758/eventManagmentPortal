@@ -13,4 +13,9 @@ class Vendor extends Model
     {
         return $this->hasOne(Booth::class);
     }
+
+    public function booths()
+    {
+        return $this->belongsTo(Booth::class);
+    }
 }

@@ -53,6 +53,30 @@ input:focus {
   color: #000;
 }
 
+textarea.form-control{
+  border: 1px solid #aeaeae;
+}
+textarea.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #aeaeae;
+}
+select.form-control{
+  border: 1px solid #aeaeae;
+}
+select.form-control:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #aeaeae;
+}
+
+.booth_idss {
+  min-height: 45px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+
 select {
   padding: 10px 15px;
   border-radius: 7px;
@@ -92,6 +116,18 @@ option {
   background-color: #F26B41;
   color: #fff;
   border: 1px solid #F26B41;
+}
+
+.gap-y15{
+  gap: 15px 0px;
+}
+
+.header_inner .logo a img{
+  max-width: 180px;
+}
+
+.page_title{
+  margin-bottom: 20px;
 }
 
 /* MODAL CSS */
@@ -231,18 +267,18 @@ MAIN SCREEN CSS
 ------------------------------ */
 .main_screen .dash_card {
   color: var(--theme-text);
-  padding: 10px 0;
-  border-radius: 20px;
-  margin: 30px 0;
+  padding: 18px 10px;
+  border-radius: 13px;
+  /* margin: 30px 0; */
 }
 
 .main_screen .dash_card .event_time {
-  font-size: 24px;
+  font-size: clamp(14px, 5vw, 18px);
   font-weight: 500;
 }
 
 .main_screen .dash_card .event_value {
-  font-size: 36px;
+  font-size: clamp(22px, 5vw, 28px);
   font-weight: 500;
 }
 
@@ -315,6 +351,10 @@ form .input_row {
 
 .text_field70 {
   width: 70%;
+}
+
+.text_field65{
+  width: 65%;
 }
 
 
@@ -427,9 +467,9 @@ EVENT PAGE CSS
 }
 
 /* team PAge Css */
-#team .team_actions img {
+/* #team .team_actions img {
   height: 15px;
-}
+} */
 
 
 
@@ -493,7 +533,111 @@ EVENT PAGE CSS
 }
 
 
-
+/* new css code */
+#checklist .actions img{height:25px;}
+#checklist .actions a{color:#000;}
+.modal .select-btn {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.modal .select-btn .btn-text {
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+}
+.modal .select-btn .arrow-dwn {
+  display: flex;
+  height: 21px;
+  width: 21px;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 50%;
+  background: rgb(91, 73, 255);
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+.modal .select-btn.open .arrow-dwn {
+  transform: rotate(-180deg);
+}
+.modal .list-items {
+  position: relative;
+  margin-top: 15px;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  max-height: 220px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: none;
+}
+.modal .select-btn.open ~ .list-items {
+  display: block;
+}
+/* Always show the scrollbar of the dropdown */
+.modal .select-btn.open ~ .list-items::-webkit-scrollbar {
+  width: 8px;
+  height: 0;
+}
+.modal .select-btn.open ~ .list-items::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .2);
+  border-radius: 8px;
+}
+.modal .select-btn.open ~ .list-items::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, .3);
+}
+.modal .list-items .item {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  height: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 0 15px;
+  border-radius: 8px;
+}
+.modal .list-items .item:hover {
+  background-color: #E7EDFE;
+}
+.modal .item .item-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+.modal .item .checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+  border-radius: 4px;
+  margin-right: 12px;
+  border: 1.5px solid #C0C0C0;
+  transition: all 0.3s ease-in-out;
+}
+.modal .item.checked .checkbox {
+  background-color: rgb(91, 73, 255);
+  border-color: rgb(91, 73, 255);
+}
+.modal .checkbox .check-icon {
+  color: #fff;
+  font-size: 11px;
+  transform: scale(0);
+  transition: all 0.2s ease-in-out;
+}
+.modal .item.checked .check-icon {
+  transform: scale(1);
+}
+.team_actions a, .team_actions button{font-size: 12px;}
+.team_actions a img, .team_actions button img{width: 12px; max-width: 100%; height: auto; margin-left: 3px;}
 
 @media (max-width: 735px) {
   .pagination .pages {
@@ -501,37 +645,51 @@ EVENT PAGE CSS
   }
 }
 
-.page {}
+@media (max-width:991px){
+  .text_field65 {
+    width: 100%;
+}  
 
+.text_field30,
+.text_field70,
+.text_field20 {
+  width: 100%;
+}
+form .input_row {
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
 
+}
 @media (max-width:767px) {
   .notifications {
     display: none;
   }
 
-  form .input_row {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-  }
 
-  .text_field30,
-  .text_field70,
-  .text_field20 {
-    width: 100%;
-  }
 
   .profile {
     display: none;
   }
 
-  .top_bar .page_heading {
-    font-size: 24px;
-  }
+}
 
-  .top_bar i {
-    font-size: 35px;
-  }
+@media (max-width:567px){
+.header_inner .logo a img {
+  max-width: 120px;
+}
+.main_screen .event_form .page_title span {
+  font-size: 16px;
+}
+
+.top_bar .page_heading {
+  font-size: 20px;
+}
+.top_bar i {
+  font-size: 28px;
+}
+
 }
 
 
