@@ -2,55 +2,58 @@
 @section('content')
 
 
+<style>
+  .tab-btn {
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      padding: 5px 10px;
+      border-radius: 5px;
+  }
+  
+  /* Hover Effect */
+  .tab-btn:hover {
+      background-color: black !important;
+      color: white !important;
+  }
+  
+  /* Active Tab Styling */
+  .tab-btn.active {
+      border: 2px solid white;
+  }
+</style>
 <div class="main_screen">
     <div class="container-fluid">
-      
       <div class="row justify-content-around gap-y15 pt-lg-5 pt-4">
-        <div class="col-md-3">
-          <div class="text-center dash_card d-flex justify-content-center align-items-center gap-y15" style="background-color: #FDB731">
-          
-            <div>
-              <div class="event_time">Total Expenses</div>
-              <div class="event_value d-flex gap-3"><span>INR</span>1600000 </div>
+        <div class="col-md-4">
+            <div class="text-center dash_card d-flex flex-column align-items-center p-3 rounded-3" style="background-color: #FDB731;">
+                <div class="event_time fw-bold text-white">Total Expenses</div>
+                <div class="event_value d-flex gap-2 text-white fs-4"><span>INR</span>{{ number_format($totalExpenses) }}</div>
             </div>
-          </div>
         </div>
-        <div class="col-md-3">
-          <div class="text-center dash_card d-flex justify-content-center align-items-center gap-5" style="background-color: #F26B41">
-            
-            <div>
-                <div class="event_time">Last Event Expenses</div>
-                <div class="event_value d-flex gap-3"><span>INR</span>900000
-                 </div>
+        <!-- Last Event Expenses -->
+        <div class="col-md-4">
+            <div class="text-center dash_card d-flex flex-column align-items-center p-3 rounded-3" style="background-color: #F26B41;">
+                <div class="event_time fw-bold text-white">Last Event Expenses</div>
+                <div class="event_value d-flex gap-2 text-white fs-4"><span>INR</span> {{ number_format($lastEventExpenses) }}</div>
             </div>
-          </div>
         </div>
-        <div class="col-md-3">
-          <div class="text-center dash_card d-flex justify-content-center align-items-center gap-5" style="background-color: #A3CE4B">
-           
-            <div>
-                <div class="event_time">Total Expenses</div>
-                <div class="event_value d-flex gap-3"><span>INR</span>1600000 </div>
-            </div>
+        <div class="col-md-4">
+          <div class="text-center dash_card d-flex flex-column align-items-center p-3 rounded-3 position-relative" style="background-color: #A3CE4B;">
+              <!-- Tab Buttons with Hover -->
+              <div class="d-flex gap-2 position-absolute top-0 start-50 translate-middle-x">
+                  <span class="badge tab-btn bg-warning text-dark active mt-2" data-target="week">Last Week</span>
+                  <span class="badge tab-btn bg-orange text-dark mt-2" data-target="month">Last Month</span>
+                  <span class="badge tab-btn bg-success text-dark mt-2" data-target="year">Last Year</span>
+              </div>
+              <!-- Tab Content -->
+              <div class="event_value d-flex gap-2 text-white fs-4 mt-4 tab-content" id="week"><span>INR</span>{{ number_format($lastWeekExpenses) }}</div>
+              <div class="event_value d-flex gap-2 text-white fs-4 mt-4 tab-content d-none" id="month"><span>INR</span>{{ number_format($lastMonthExpenses) }}</div>
+              <div class="event_value d-flex gap-2 text-white fs-4 mt-4 tab-content d-none" id="year"><span>INR</span> {{ number_format($lastYearExpenses) }}</div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="text-center dash_card d-flex justify-content-center align-items-center gap-5" style="background-color: #44C8F5">
-           
-            <div>
-                <div class="event_time">Upcomming Expenses</div>
-                <div class="event_value d-flex gap-3"><span>INR</span>2600000 </div>
-            </div>
-          </div>
-        </div>
       </div>
-      <div class="d-flex gap-5 align-items-center my-4">
-        <div>
-          <input type="text" placeholder="Search" />
-        </div>
-      </div>
+
       <div class="wrapper">
-        <table class="table table-bordered table-hover" cellspacing="0" width="100%">
+        <table class="display table table-bordered table-hover" id="example" cellspacing="0" width="100%">
           <thead class="table_head">
             <tr>
               <th style="width: 5%;">S No.</th>
@@ -59,7 +62,6 @@
               <th style="width: 8%;">Start Date</th>
               <th style="width: 8%;">End Date</th>
               <th style="width: 12%;">Total Expenses</th>
-              <th style="width: 8%;">Status</th>
               <th style="width: 8%;">Actions</th>
             </tr>
           </thead>
@@ -72,7 +74,7 @@
               <td>{{date('d-M-y',strtotime($item['start_date']))}}</td>
               <td>{{date('d-M-y',strtotime($item['end_date']))}}</td>
               <td>₹{{ number_format($item['total_expense'], 2) }}</td>
-              <td>{{$item['status']}}</td>
+            
               <td>
                 <div class="actions d-flex gap-5">
                   <a href="{{route('expenses',$item['event_id'])}}"><img src="{{asset('assets/images/eye.svg')}}" alt="View"></a>
@@ -84,30 +86,31 @@
           </tbody>
         </table>
       </div>
-      {{-- <nav class="pagination mx-auto mt-5">
-        <a href="#" class="previous">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M18 10a.75.75 0 0 1-.75.75H4.66l2.1 1.95a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 1 1 1.02 1.1l-2.1 1.95h12.59A.75.75 0 0 1 18 10Z" clip-rule="evenodd"></path>
-          </svg>
-          Previous
-        </a>
-        <ul class="pages">
-          <li class="page"><a href="#" class="current" aria-current="page">1</a></li>
-          <li class="page"><a href="#">2</a></li>
-          <li class="page"><a href="#">3</a></li>
-          <li class="dots">&hellip;</li>
-          <li class="page"><a href="#">8</a></li>
-          <li class="page"><a href="#">9</a></li>
-          <li class="page"><a href="#">10</a></li>
-        </ul>
-        <a href="#" class="next">
-          Next
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M18 10a.75.75 0 0 1-.75.75H4.66l2.1 1.95a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 1 1 1.02 1.1l-2.1 1.95h12.59A.75.75 0 0 1 18 10Z" clip-rule="evenodd"></path>
-          </svg>
-        </a>
-      </nav> --}}
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let tabs = document.querySelectorAll(".tab-btn");
+        let contents = document.querySelectorAll(".tab-content");
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function () {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove("active"));
+
+                // Hide all tab contents
+                contents.forEach(content => content.classList.add("d-none"));
+
+                // Show selected content
+                let target = this.getAttribute("data-target");
+                document.getElementById(target).classList.remove("d-none");
+
+                // Add active class to clicked tab
+                this.classList.add("active");
+            });
+        });
+    });
+</script>
+
 
   @endsection

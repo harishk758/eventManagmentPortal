@@ -85,7 +85,7 @@
                         <div class="col-lg-4 col-md-6">
                             <label for="aadhaar_front" class="form-label">Aadhar Front
                             </label>
-                            <input type="file" id="aadhaar_front"  name="aadhaar_front">
+                            <input type="file" id="aadhaar_front"  name="aadhaar_front" accept=".jpg, .jpeg, .png">
                             <div class="mt-1">
                                 <img src="{{asset('upload_image/aadhaar_front/'. $teamMember->aadhaar_front)}}" class="img-fluid" width="60" height="60" alt="aadhaar_front.{{$teamMember->id}}">
                             </div>
@@ -99,7 +99,7 @@
                             <label for="aadhaar_back" class="form-label">Aadhar Back
                             </label>
                             <input type="file" id="aadhaar_back"
-                                name="aadhaar_back">
+                                name="aadhaar_back" accept=".jpg, .jpeg, .png">
                                 <div class="mt-1">
                                     <img src="{{asset('upload_image/aadhaar_back/'. $teamMember->aadhaar_back)}}" class="img-fluid" width="60" height="60" alt="aadhar_back.{{$teamMember->id}}">
                             </div>
@@ -113,7 +113,7 @@
                         <div class="col-lg-4 col-md-6">
                             <label for="pancard" class="form-label">Pan Card
                             </label>
-                            <input type="file" id="pancard"  name="pancard">
+                            <input type="file" id="pancard"  name="pancard" accept=".jpg, .jpeg, .png">
                             <div class="mt-1">
                                 <img src="{{asset('upload_image/pancard/'. $teamMember->pancard)}}" width="60" height="60" alt="pancard.{{$teamMember->id}}">
                             </div>

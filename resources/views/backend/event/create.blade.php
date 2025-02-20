@@ -176,21 +176,15 @@
                 },
                 creator_name: {
                     required: true,
-                    regex: /^[6-9]\d{9}$/,
-                    notWhitespaceOnly: true,
-                    noLeadingOrTrailingSpaces: true
+                    // regex: /^[6-9]\d{9}$/,
+                    // notWhitespaceOnly: true,
+                    // noLeadingOrTrailingSpaces: true
                 },
                 creator_designation: {
-                    required: true,
-                    regex: /^[6-9]\d{9}$/,
-                    notWhitespaceOnly: true,
-                    noLeadingOrTrailingSpaces: true
+                    required: true
                 },
                 event_description: {
-                    required: true,
-                    regex: /^[6-9]\d{9}$/,
-                    notWhitespaceOnly: true,
-                    noLeadingOrTrailingSpaces: true
+                    required: true
                 },
                 country: {
                     required: true,
@@ -228,16 +222,14 @@
                     email: 'Please enter a valid email address.'
                 },
                 creator_name: {
-                    required: 'Creator name is required.',
-                    number: 'Contact Number Should be Number Type'
+                    required: 'Creator name is required.'
                 },
                 creator_designation: {
                     required: 'Creator designation is required.',
-                    number: 'Contact Number Should be Number Type'
+                    // number: 'Contact Number Should be Number Type'
                 },
                 event_description: {
-                    required: 'Event description is required.',
-                    number: 'Contact Number Should be Number Type'
+                    required: 'Event description is required.'
                 },
                 country: {
                     required: 'Country is required.'

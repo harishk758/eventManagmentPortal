@@ -20,9 +20,11 @@ class BoothController extends Controller
      */
     public function index()
     {
-        $booth = Booth::with('event', 'vendor')->get();
+        $booth = Booth::with('event', 'vendors')->orderBy('created_at', 'desc')->get();
+
         return view('backend.booth.index', compact('booth'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,66 +39,8 @@ class BoothController extends Controller
      * Store a newly created resource in storage.
      */
 
-
-    //      public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'booths' => 'required|array',
-    //         'booths.*.event_id' => 'required|exists:events,id',
-    //         'booths.*.booth_size' => 'required|numeric|max:255',
-    //         'booths.*.booth_area' => 'required|numeric',
-    //         'booths.*.booth_cost' => 'required|numeric',
-    //         'booths.*.booth_supervisor' => 'required|string|max:255',
-    //         'booths.*.booth_requirements' => 'nullable|string',
-    //         'booths.*.vendor.vendor_name' => 'required|string|max:255',
-    //         'booths.*.vendor.vendor_company' => 'required|string',
-    //         'booths.*.vendor.country_id' => 'required|integer|exists:countries,id',
-    //         'booths.*.vendor.vendor_email' => 'required|email|max:255',
-    //         'booths.*.vendor.vendor_address' => 'required|string|max:255',
-    //         'booths.*.vendor.vendor_city' => 'required|string|max:255',
-    //         'booths.*.vendor.vendor_description' => 'nullable|string',
-    //     ]);
-
-    //     DB::beginTransaction();
-
-    //     try {
-    //         foreach ($validatedData['booths'] as $boothData) {
-    //             $booth = new Booth();
-    //             $booth->event_id = $boothData['event_id'];
-    //             $booth->booth_size = $boothData['booth_size'];
-    //             $booth->booth_area = $boothData['booth_area'];
-    //             $booth->booth_cost = $boothData['booth_cost'];
-    //             $booth->booth_supervisor = $boothData['booth_supervisor'];
-    //             $booth->booth_requirements = $boothData['booth_requirements'] ?? null;
-    //             $booth->save();
-
-    //             $vendorData = $boothData['vendor'];
-    //             $vendor = new Vendor();
-    //             $vendor->booth_id = $booth->id;
-    //             $vendor->vendor_name = $vendorData['vendor_name'];
-    //             $vendor->vendor_company = $vendorData['vendor_company'];
-    //             $vendor->country_id = $vendorData['country_id'];
-    //             $vendor->vendor_email = $vendorData['vendor_email'];
-    //             $vendor->vendor_address = $vendorData['vendor_address'];
-    //             $vendor->vendor_city = $vendorData['vendor_city'];
-    //             $vendor->vendor_description = $vendorData['vendor_description'] ?? null;
-    //             $vendor->save();
-    //         }
-
-    //         DB::commit();
-
-    //         return redirect()->route('add_booth')->with('success', 'Booth details have been successfully stored.');
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         return back()->with('error', $e->getMessage());
-    //     }
-    // }
-
-
-    //  old code 
     public function store(Request $request)
     {
-        // Validate input data
         $validatedData = $request->validate([
             'event_id' => 'required|exists:events,id',
             'booth_name' => 'required|string|max:255',
@@ -105,8 +49,6 @@ class BoothController extends Controller
             'booth_cost' => 'nullable',
             'booth_supervisor' => 'nullable|string|max:255',
             'booth_requirements' => 'nullable|string|max:500',
-
-            // Vendor Validation
             'vendor_name' => 'required|string|max:255',
             'vendor_company' => 'nullable|string|max:255',
             'vendor_email' => 'nullable|email|max:255',
@@ -119,7 +61,6 @@ class BoothController extends Controller
         try {
             DB::beginTransaction();
 
-            // Store Booth Data
             $booth = new Booth();
             $booth->event_id = $validatedData['event_id'];
             $booth->booth_name = $validatedData['booth_name'];
@@ -162,22 +103,18 @@ class BoothController extends Controller
      */
     public function edit(string $id)
     {
-        // Fetch all events for the dropdown
         $events = Event::all();
 
-        // Fetch booth details by ID
         $booth = Booth::find($id);
 
-        // Fetch corresponding vendor based on booth_id
-        $vendor = Vendor::where('booth_id', $booth->id)->first();
-
-        // Check if booth or vendor does not exist and handle it
         if (!$booth) {
-            return redirect()->route('booth')->with('error', 'Booth not found.');
+            return redirect()->route('booth')->with('error', 'बूथ नहीं मिला।');
         }
+        $vendor = Vendor::where('booth_id', $booth->id)->first();
 
         return view('backend.booth.edit', compact('booth', 'events', 'vendor'));
     }
+
 
 
     /**
@@ -246,26 +183,18 @@ class BoothController extends Controller
      */
     public function destroy(string $id)
     {
-        // Find the booth by ID
         $booth = Booth::find($id);
 
-        // Check if the booth exists
         if (!$booth) {
             return redirect()->route('booth')->with('error', 'Booth not found.');
         }
 
-        // Find the associated vendor for the booth
         $vendor = Vendor::where('booth_id', $booth->id)->first();
 
-        // Delete the vendor if it exists
         if ($vendor) {
             $vendor->delete();
         }
-
-        // Delete the booth
         $booth->delete();
-
-        // Return success message
         return redirect()->route('booth')->with('success', 'Booth and associated vendor deleted successfully.');
     }
 
@@ -277,4 +206,59 @@ class BoothController extends Controller
 
         return response()->json($booths);
     }
+
+    //      public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'booths' => 'required|array',
+    //         'booths.*.event_id' => 'required|exists:events,id',
+    //         'booths.*.booth_size' => 'required|numeric|max:255',
+    //         'booths.*.booth_area' => 'required|numeric',
+    //         'booths.*.booth_cost' => 'required|numeric',
+    //         'booths.*.booth_supervisor' => 'required|string|max:255',
+    //         'booths.*.booth_requirements' => 'nullable|string',
+    //         'booths.*.vendor.vendor_name' => 'required|string|max:255',
+    //         'booths.*.vendor.vendor_company' => 'required|string',
+    //         'booths.*.vendor.country_id' => 'required|integer|exists:countries,id',
+    //         'booths.*.vendor.vendor_email' => 'required|email|max:255',
+    //         'booths.*.vendor.vendor_address' => 'required|string|max:255',
+    //         'booths.*.vendor.vendor_city' => 'required|string|max:255',
+    //         'booths.*.vendor.vendor_description' => 'nullable|string',
+    //     ]);
+
+    //     DB::beginTransaction();
+
+    //     try {
+    //         foreach ($validatedData['booths'] as $boothData) {
+    //             $booth = new Booth();
+    //             $booth->event_id = $boothData['event_id'];
+    //             $booth->booth_size = $boothData['booth_size'];
+    //             $booth->booth_area = $boothData['booth_area'];
+    //             $booth->booth_cost = $boothData['booth_cost'];
+    //             $booth->booth_supervisor = $boothData['booth_supervisor'];
+    //             $booth->booth_requirements = $boothData['booth_requirements'] ?? null;
+    //             $booth->save();
+
+    //             $vendorData = $boothData['vendor'];
+    //             $vendor = new Vendor();
+    //             $vendor->booth_id = $booth->id;
+    //             $vendor->vendor_name = $vendorData['vendor_name'];
+    //             $vendor->vendor_company = $vendorData['vendor_company'];
+    //             $vendor->country_id = $vendorData['country_id'];
+    //             $vendor->vendor_email = $vendorData['vendor_email'];
+    //             $vendor->vendor_address = $vendorData['vendor_address'];
+    //             $vendor->vendor_city = $vendorData['vendor_city'];
+    //             $vendor->vendor_description = $vendorData['vendor_description'] ?? null;
+    //             $vendor->save();
+    //         }
+
+    //         DB::commit();
+
+    //         return redirect()->route('add_booth')->with('success', 'Booth details have been successfully stored.');
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         return back()->with('error', $e->getMessage());
+    //     }
+    // }
+    //  old code 
 }

@@ -1,6 +1,11 @@
 @extends('backend.master')
 
 @section('content')
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
     <div class="main_screen">
 
         <div class="top_bar d-flex align-items-center">
@@ -62,13 +67,13 @@
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea name="description" class="form-control"></textarea>
-                        @if ($errors->has('description'))
-                            <div class="text-danger">
-                                {{ $errors->first('description') }}
+                                @if ($errors->has('description'))
+                                    <div class="text-danger">
+                                        {{ $errors->first('description') }}
+                                    </div>
+                                @endif
                             </div>
-                        @endif
-                    </div>
-                </div>
+                        </div>
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary">Assign to Event</button>
@@ -79,9 +84,9 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const boothSelect = document.querySelector(".booth_idss");
-    
+
             function adjustHeight() {
                 if (boothSelect.options.length > 1) {
                     boothSelect.style.height = "auto";
@@ -89,18 +94,18 @@
                     boothSelect.style.height = "45px";
                 }
             }
-    
+
             boothSelect.addEventListener("change", adjustHeight);
-    
-            document.getElementById("event_id").addEventListener("change", function () {
+
+            document.getElementById("event_id").addEventListener("change", function() {
                 setTimeout(() => {
                     adjustHeight();
                 }, 500);
             });
-    
+a
             adjustHeight();
         });
-    </script>    
+    </script>
 
     <script>
         $(document).ready(function() {

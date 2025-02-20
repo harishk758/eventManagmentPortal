@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('category');
             $table->text('expense_desgination');
             $table->string('upload_img')->nullable();
-            $table->timestamp('due_date');
+            $table->date('due_date');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

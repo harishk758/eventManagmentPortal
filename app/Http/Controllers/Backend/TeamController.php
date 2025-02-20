@@ -13,7 +13,10 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $show = TeamMember::leftJoin('event_team_assignments', 'team_members.id', '=', 'event_team_assignments.member_id')
+        $show = TeamMember::leftJoin('event_team_assignments', function ($join) {
+            $join->on('team_members.id', '=', 'event_team_assignments.member_id')
+                ->whereNull('event_team_assignments.deleted_at'); // Exclude soft deleted assignments
+        })
             ->select('team_members.*', 'event_team_assignments.id as assignEventId', 'event_team_assignments.event_id')
             ->get();
         // dd($show);
@@ -33,8 +36,6 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $validatedData = $request->validate([
             'member_name' => 'required|max:20',
             'designation' => 'required',
@@ -88,8 +89,14 @@ class TeamController extends Controller
     public function edit(string $id)
     {
         $teamMember = TeamMember::findOrFail($id);
-        return view('backend.team.edit', compact('teamMember'));
+
+        if ($teamMember) {
+            return view('backend.team.edit', compact('teamMember'));
+        } else {
+            return redirect()->route('event');
+        }
     }
+
 
     /**
      * Update the specified resource in storage.

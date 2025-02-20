@@ -36,7 +36,7 @@ class TeamAssignEventController extends Controller
             'member_id' => $request->member_id,
             'event_id' => $request->event,
             'booth_id' => implode(',', $request->booth),
-            'assign_team' => 1, // Assume 1 means assigned
+            'assign_team' => 1,
             'description' => $request->description,
         ]);
 
@@ -50,7 +50,7 @@ class TeamAssignEventController extends Controller
 
         // Fetch all events and booths to populate the dropdowns
         $events = Event::all();
-        $booths = Booth::all();
+        $booths = Booth::where('event_id', $assignment->event_id)->get();
 
         // Return the view with the assignment, events, and booths data
         return view('backend.assign_team_event.edit', compact('assignment', 'events', 'booths'));
@@ -82,6 +82,7 @@ class TeamAssignEventController extends Controller
 
     public function destroy($assignment_id)
     {
+        
         $assignment = EventTeamAssignment::findOrFail($assignment_id);
         $assignment->delete();
         return redirect()->route('team.index')->with('success', 'Team assignment deleted successfully.');

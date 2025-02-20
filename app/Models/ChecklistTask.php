@@ -22,5 +22,22 @@ class ChecklistTask extends Model
     {
         return $this->belongsTo(Event::class, 'event_id');
     }
+
+    public function booth()
+    {
+        return $this->belongsTo(Booth::class, 'booth_id');
+    }
+
+
+    public function getStatusAttribute($value)
+    {
+        if ($value === 'paid') {
+            return 'Paid';
+        }
+        if ($this->due_date < now() && $value !== 'paid') {
+            return 'Overdue';
+        }
+        return 'Pending';
+    }
     
 }

@@ -273,12 +273,12 @@ MAIN SCREEN CSS
 }
 
 .main_screen .dash_card .event_time {
-  font-size: clamp(14px, 5vw, 18px);
+  font-size: clamp(14px, 5vw, 16px);
   font-weight: 500;
 }
 
 .main_screen .dash_card .event_value {
-  font-size: clamp(22px, 5vw, 28px);
+  font-size: clamp(22px, 5vw, 24px);
   font-weight: 500;
 }
 
@@ -714,7 +714,7 @@ form .input_row {
   }
 }
 
-@media (max-width:1499px) {
+@media (max-width:991px) {
   .list_item a span {
     display: none;
   }

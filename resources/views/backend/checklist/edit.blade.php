@@ -44,7 +44,17 @@
                                 </div>
                             @endif
                         </div>
-                        
+                        <div class="col-lg-4 col-md-6">
+                            <label for="task" class="form-label">Booth<span>*</span></label>
+                            <select name="booth_id" id="booth_id" class="form-control booth_idss">
+                                <option value="" selected disabled>Select Booth</option>
+                            </select>
+                            @if ($errors->has('booth_id'))
+                                <div class="text-danger">
+                                    {{ $errors->first('booth_id') }}
+                                </div>  
+                            @endif
+                        </div>
                         <div class="col-lg-4 col-md-6">
                             <label for="task" class="form-label">Task<span>*</span></label>
                             <input type="text" id="eventName" placeholder="Enter Task Name" name="task" value="{{ $edit->task}}">
@@ -126,4 +136,78 @@
             </div>
         </div>
     </div>
+
+
+    {{-- <script>
+        $(document).ready(function() {
+            var selectedEventId = $('#event_id').val();  
+            var selectedBoothId = "{{ $edit->booth_id }}";
+        
+            if (selectedEventId) {
+                fetchBooths(selectedEventId, selectedBoothId);
+            }
+        
+            $('#event_id').on('change', function() {
+                var event_id = $(this).val();
+                fetchBooths(event_id, null); 
+            });
+        
+            function fetchBooths(eventId, selectedBoothId) {
+                if(eventId) {
+                    $.ajax({
+                        url: "{{ url('/get-booths') }}/" + eventId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+                            
+                            $.each(data, function(key, booth) {
+                                var isSelected = selectedBoothId == booth.id ? 'selected' : '';
+                                $('#booth_id').append('<option value="' + booth.id + '" ' + isSelected + '>' + booth.booth_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+                }
+            }
+        });
+    </script> --}}
+    
+    <script>$(document).ready(function() {
+        var selectedEventId = $('#event_id').val();  // Event ID jo pehle se select hai
+        var selectedBoothId = "{{ $edit->booth_id }}"; // Selected Booth ID from expense
+    
+        // Agar page load hone pr event selected hai to uska booth fetch kro
+        if (selectedEventId) {
+            fetchBooths(selectedEventId, selectedBoothId);
+        }
+    
+        // Jab bhi event change ho, naye booths load kro
+        $('#event_id').on('change', function() {
+            var event_id = $(this).val();
+            fetchBooths(event_id, null);
+        });
+    
+        function fetchBooths(eventId, selectedBoothId) {
+            if(eventId) {
+                $.ajax({
+                    url: "{{ url('/get-booths') }}/" + eventId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+                        $.each(data, function(key, booth) {
+                            var isSelected = selectedBoothId == booth.id ? 'selected' : '';
+                            $('#booth_id').append('<option value="' + booth.id + '" ' + isSelected + '>' + booth.booth_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+            }
+        }
+    });
+    </script>
+
 @endsection

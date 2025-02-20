@@ -11,19 +11,24 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $events = Event::all();
+
+        $events = Event::orderBy('created_at', 'desc')->get();
+
         return view('backend.event.index', compact('events'));
     }
 
-    /**
+
+    /** 
      * Show the form for creating a new resource.
      */
     public function create()
     {
         return view('backend.event.create');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -55,7 +60,6 @@ class EventController extends Controller
             'creator_name' => $validatedData['creator_name'],
             'creator_designation' => $validatedData['creator_designation'],
             'event_description' => $validatedData['event_description'],
-
         ]);
 
         return redirect()->route('event')->with('success', 'Event created successfully!');
@@ -64,11 +68,17 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
+
     public function edit(string $id)
     {
         $edit = Event::find($id);
+        if (!$edit) {
+            return redirect()->route('event')->with('error', 'Not Define events');
+        }
         return view('backend.event.edit', compact('edit'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -86,7 +96,7 @@ class EventController extends Controller
             'event_description' => 'required|string',
             'event_category' => 'required|string',
         ]);
-        
+
         // Find the event by its ID
         $event = Event::findOrFail($id);
 
@@ -118,30 +128,16 @@ class EventController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    $event = Event::find($id);
-    if (!$event) {
-        return redirect()->back()->with('error', 'Event not found.');
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return redirect()->back()->with('error', 'Event not found.');
+        }
+        try {
+            $event->delete();
+            return redirect()->route('event.index')->with('success', 'Event deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting the event.');
+        }
     }
-    try {
-        $event->delete();
-        return redirect()->route('event.index')->with('success', 'Event deleted successfully.');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'An error occurred while deleting the event.');
-    }
-}
-
-    // public function destroy(string $id){
-    //     $delete = Event::find($id);
-    //     if (!$delete){
-    //         return redirect()->back()->with('error', 'Record not found.');
-    //     }
-    
-    //     try{
-    //         $delete->delete();
-    //         return redirect()->back()->with('success', 'Record deleted successfully.');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->with('error', 'An error occurred while deleting the record.');
-    //     }
-    // }
 }

@@ -10,32 +10,41 @@
             <a href="javacript:void(0)"><img src="{{ asset('assets/images/ind_flag.svg')}}" alt="India" /></a>
             <a href="javacript:void(0)"><i class="fa-regular fa-bell"></i></a>
           </div>
-          <a href="javascript:void(0)" class="d-flex align-items-center gap-3 profile_toggle">
-            <div class="username">
-              <div>USER 123</div>
-              <div>admin</div> 
-            </div>
-            <div class="profile d-flex overflow-hidden rounded-5">
-              <img src="{{ asset('assets/images/user.png')}}" alt="User" />
-            </div>
-            <i class="fa-solid fa-circle-chevron-down"></i>
-          </a>
-          <div class="menu">
-            <ul>
-              <li><a href="#"><i class="bi bi-person-fill"></i>&nbsp;Profile</a></li>
+          <div>
+            <a href="javascript:void(0)" class="d-flex align-items-center gap-3 profile_toggle">
+              <div class="username">
+                <div>{{ Auth::user()->name; }}</div>
+                <div></div> 
+              </div>
+              <div class="profile d-flex overflow-hidden rounded-5">
+                <img src="{{ asset('assets/images/user.png')}}" alt="User" />
+              </div>
+              <i class="fa-solid fa-circle-chevron-down"></i>
+            </a>
             
-              <li><a href="#"><i class="bi bi-gear-fill"></i></i>&nbsp;Settings</a></li>
-              <li><a href="#"><i class="bi bi-question-square-fill"></i>&nbsp;Help</a></li>
-              <li><a href="{{ route('logout') }}"  onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i>&nbsp;Sign Out</a></li>
-
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
+            <div class="menu" style="display: none;">
+              <ul>
+                <li><a href="#"><i class="bi bi-person-fill"></i>&nbsp;Profile</a></li>
+                <li><a href="#"><i class="bi bi-gear-fill"></i>&nbsp;Settings</a></li>
+                <li><a href="#"><i class="bi bi-question-square-fill"></i>&nbsp;Help</a></li>
+                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i>&nbsp;Sign Out</a></li>
+              </ul>
+            </div>
+            
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
             </form>
-
-            </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+<script>
+  $(document).ready(function(){
+    $('.profile_toggle').click(function() {
+      $('.menu').toggle(); // Toggle the czenu visibility
+    });
+  });
+</script>

@@ -11,12 +11,12 @@
                         <img src="{{ asset('assets/images/create_btn.svg') }} " />
                     </a>
                 </div>
-                <div class="col-md-2 button">
+                {{-- <div class="col-md-2 button">
                     <input type="text" placeholder="Search" />
-                </div>
+                </div> --}}
             </div>
 
-            
+
 
             @if (session()->has('success'))
                 <div class="alert alert-success text-center">
@@ -24,7 +24,7 @@
                 </div>
             @endif
             <div class="wrapper mt-lg-5">
-                <table class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table class="display table table-bordered table-hover" id="example" cellspacing="0" width="100%">
                     <thead class="table_head">
                         <tr>
                             <th style="width:5%;">S No.</th>
@@ -53,7 +53,7 @@
                     <tbody id="team">
                         @foreach ($show as $key => $item)
                             <tr>
-                                <td>{{ $key+1 }}</td>
+                                <td>{{ $key + 1 }}</td>
                                 <td>{{ $item->member_name }}</td>
                                 <td>{{ $item->designation }}</td>
                                 <td>{{ $item->email }}</td>
@@ -66,14 +66,18 @@
                                                     To
                                                     Event</span><img src="{{ asset('assets/images/assign_team.svg') }}"></a>
                                         @else
-                                                <a href="{{ route('event.editAssignment', $item->assignEventId) }}" class="d-flex me-2 text-warning border-warning border align-items-center px-2 py-1 rounded" id="openModal4">Edit <img src="./assets/images/team_edit.svg"></a>
+                                            <a href="{{ route('event.editAssignment', $item->assignEventId) }}"
+                                                class="d-flex me-2 text-warning border-warning border align-items-center px-2 py-1 rounded"
+                                                id="openModal4">Edit <img src="./assets/images/team_edit.svg"></a>
 
                                             <form action="{{ route('event.deleteAssignment', $item->assignEventId) }}"
                                                 method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="d-flex border-danger border px-2 py-1 rounded text-danger align-items-center"
-                                                    onclick="return confirm('Are you sure you want to delete this event assignment?');"> Remove<img src="{{ asset('assets/images/team_remove.svg') }}"
+                                                <button type="submit"
+                                                    class="d-flex border-danger border px-2 py-1 rounded text-danger align-items-center"
+                                                    onclick="return confirm('Are you sure you want to delete this event assignment?');">
+                                                    Remove<img src="{{ asset('assets/images/team_remove.svg') }}"
                                                         alt="Delete Assignment">
                                                 </button>
                                             </form>
@@ -109,7 +113,8 @@
                     </tbody>
                 </table>
             </div>
-           
+
         </div>
     </div>
 @endsection
+

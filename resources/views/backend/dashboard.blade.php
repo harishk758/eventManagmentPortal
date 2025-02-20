@@ -80,9 +80,31 @@
                     </select>
                 </div>
             </div> --}}
-            <div class="wrapper">
-                <table class="table table-bordered table-hover" cellspacing="0" width="100%">
+            @if (session()->has('success'))
+                <div class="alert alert-success text-center">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+            @if (session()->has('error'))
+                <div class="alert alert-danger text-center">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
+            <div class="">
+                <table class="table table-bordered table-hover" id="example" cellspacing="0" width="100%">
                     <thead class="table_head">
+
+                        @if (session()->has('success'))
+                <div class="alert alert-success text-center">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+            @if (session()->has('error'))
+                <div class="alert alert-danger text-center">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
+            
                         <tr>
                             <th style="width:5%;">S No.</th>
                             <th style="width:15%;">
@@ -131,39 +153,20 @@
                                 </td>
                                 <td>
                                     <div class="actions d-flex gap-5">
-                                        <a href="Javascript:void(0)"><img src="./assets/images/eye.svg" alt=""></a>
+                                        <a href="{{ route('eventSummary', base64_encode($item->id)) }}">
+                                            <img src="./assets/images/eye.svg" alt="">
+                                        </a>
+                                        <a href="{{ route('event.summary.download', ['id' => base64_encode($item->id)]) }}">
+                                            <img src="./assets/images/dowload.svg" alt="">
+                                        </a>
                                     </div>
                                 </td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
-                    
-
                 </table>
             </div>
-            {{-- <nav class="pagination mx-auto mt-5">
-            <a href="#" class="previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                    fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M18 10a.75.75 0 0 1-.75.75H4.66l2.1 1.95a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 1 1 1.02 1.1l-2.1 1.95h12.59A.75.75 0 0 1 18 10Z"
-                        clip-rule="evenodd"></path>
-                </svg> Previous</a>
-            <ul class="pages">
-                <li class="page"><a href="#" class="current" aria-current="page">1</a></li>
-                <li class="page"><a href="#">2</a></li>
-                <li class="page"><a href="#">3</a></li>
-                <li class="dots">&hellip;</li>
-                <li class="page"><a href="#">8</a></li>
-                <li class="page"><a href="#">9</a></li>
-                <li class="page"><a href="#">10</a></li>
-            </ul>
-            <a href="#" class="next">Next <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                    fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M18 10a.75.75 0 0 1-.75.75H4.66l2.1 1.95a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 1 1 1.02 1.1l-2.1 1.95h12.59A.75.75 0 0 1 18 10Z"
-                        clip-rule="evenodd"></path>
-                </svg></a>
-        </nav> --}}
         </div>
     </div>
 @endsection

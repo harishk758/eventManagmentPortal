@@ -2,14 +2,14 @@
 @section('content')
     <div class="main_screen">
         <div class="top_bar d-flex align-items-center">
-            <a href="{{ route('expenses',$event_id) }}" class="text-white">
+            <a href="{{ route('expenses', $event_id) }}" class="text-white">
                 <i class="bi bi-arrow-left-short"></i>
             </a>
             <div class="page_heading text-center w-100">
                 Edit Expense Details
             </div>
         </div>
-        
+
         @if (session()->has('success'))
             <div class="alert alert-success text-center">
                 {{ session()->get('success') }}
@@ -31,7 +31,8 @@
                             <select name="event_id" id="event_id" class="form-select">
                                 <option value="">Select Event</option>
                                 @foreach ($events as $event_view)
-                                    <option value="{{ $event_view->id }}" {{ $event_view->id == $expense->event_id ? 'selected' : '' }}>
+                                    <option value="{{ $event_view->id }}"
+                                        {{ $event_view->id == $expense->event_id ? 'selected' : '' }}>
                                         {{ $event_view->event_name }}
                                     </option>
                                 @endforeach
@@ -44,18 +45,34 @@
                         </div>
 
                         <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                                <label for="booth_id">Booth</label>
+                                <select name="booth_id" id="booth_id" class="form-control booth_idss">
+                                    <option value="" selected disabled>Select Booth</option>
+                                </select>
+                                @if ($errors->has('booth_id'))
+                                    <div class="text-danger">
+                                        {{ $errors->first('booth_id') }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
                             <label for="expense_name" class="form-label">Expense Name</label>
-                            <input id="expense_name" type="text" name="expense_name" value="{{ $expense->expense_name }}" placeholder="Enter Expense Name" required />
+                            <input id="expense_name" type="text" name="expense_name" value="{{ $expense->expense_name }}"
+                                placeholder="Enter Expense Name" required />
                             @if ($errors->has('expense_name'))
                                 <div class="text-danger">
                                     {{ $errors->first('expense_name') }}
                                 </div>
                             @endif
                         </div>
-
+                        
                         <div class="col-lg-4 col-md-6">
                             <label for="paid_by" class="form-label">Paid By</label>
-                            <input type="text" id="paid_by" name="paid_by" value="{{ $expense->paid_by }}" placeholder="Enter Paid By" required />
+                            <input type="text" id="paid_by" name="paid_by" value="{{ $expense->paid_by }}"
+                                placeholder="Enter Paid By" required />
                             @if ($errors->has('paid_by'))
                                 <div class="text-danger">
                                     {{ $errors->first('paid_by') }}
@@ -64,8 +81,9 @@
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <label for="ammount" class="form-label">Amount</label>
-                            <input type="number" id="ammount" name="ammount" value="{{ $expense->ammount }}" placeholder="Enter Amount" required />
-                            @if ($errors->has('ammount'))
+                            <input type="number" id="ammount" name="ammount" value="{{ $expense->ammount }}"
+                                placeholder="Enter Amount" required />
+                            @if ($errors->has('ammount'))   
                                 <div class="text-danger">
                                     {{ $errors->first('ammount') }}
                                 </div>
@@ -74,7 +92,8 @@
 
                         <div class="col-lg-4 col-md-6">
                             <label for="due_date" class="form-label">Due Date</label>
-                            <input type="date" id="due_date" name="due_date" value="{{ old('due_date', isset($expense->due_date) ? \Carbon\Carbon::parse($expense->due_date)->format('Y-m-d') : '') }}" />
+                            <input type="date" id="due_date" name="due_date"
+                                value="{{ old('due_date', isset($expense->due_date) ? \Carbon\Carbon::parse($expense->due_date)->format('Y-m-d') : '') }}" />
                             @if ($errors->has('due_date'))
                                 <div class="text-danger">
                                     {{ $errors->first('due_date') }}
@@ -82,18 +101,20 @@
                             @endif
                         </div>
 
-                        <div class="col-lg-4 col-md-6">
+                        {{-- <div class="col-lg-4 col-md-6">
                             <label for="contact_number" class="form-label">Contact No.</label>
-                            <input type="text" id="contact_number" name="contact_number" value="{{ $expense->contact_number }}" placeholder="Enter Contact Number" />
+                            <input type="text" id="contact_number" name="contact_number"
+                                value="{{ $expense->contact_number }}" placeholder="Enter Contact Number" />
                             @if ($errors->has('contact_number'))
                                 <div class="text-danger">
                                     {{ $errors->first('contact_number') }}
                                 </div>
                             @endif
-                        </div>
+                        </div> --}}
                         <div class="col-lg-4 col-md-6">
                             <label for="category" class="form-label">Category</label>
-                            <input type="text" id="category" name="category" value="{{ $expense->category }}" placeholder="Enter Category" />
+                            <input type="text" id="category" name="category" value="{{ $expense->category }}"
+                                placeholder="Enter Category" />
                             @if ($errors->has('category'))
                                 <div class="text-danger">
                                     {{ $errors->first('category') }}
@@ -106,7 +127,8 @@
                             <input type="file" name="upload_img">
                             @if ($expense->upload_img)
                                 <div class="mt-2">
-                                    <img src="{{ asset('upload_image/expenses/' . $expense->upload_img) }}" width="100" alt="Current Image">
+                                    <img src="{{ asset('upload_image/expenses/' . $expense->upload_img) }}" width="100"
+                                        alt="Current Image" accept=".jpg, .jpeg, .png">
                                     <p>Current Image</p>
                                 </div>
                             @endif
@@ -134,4 +156,67 @@
             </div>
         </div>
     </div>
+
+    {{-- <script>
+        $(document).ready(function() {
+            $('#event_id').on('change', function() {
+                var event_id = $(this).val();
+                if(event_id) {
+                    $.ajax({
+                        url: "{{ url('/get-booths') }}/" + event_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#booth_id').empty().append(
+                                '<option value="">Select Booth(s)</option>');
+                            $.each(data, function(key, booth) {
+                                $('#booth_id').append('<option value="' + booth.id +
+                                    '">' + booth.booth_name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+                }
+            });
+        });
+    </script> --}}
+
+    <script>$(document).ready(function() {
+        var selectedEventId = $('#event_id').val();  // Event ID jo pehle se select hai
+        var selectedBoothId = "{{ $expense->booth_id }}"; // Selected Booth ID from expense
+    
+        // Agar page load hone pr event selected hai to uska booth fetch kro
+        if (selectedEventId) {
+            fetchBooths(selectedEventId, selectedBoothId);
+        }
+    
+        // Jab bhi event change ho, naye booths load kro
+        $('#event_id').on('change', function() {
+            var event_id = $(this).val();
+            fetchBooths(event_id, null);
+        });
+    
+        function fetchBooths(eventId, selectedBoothId) {
+            if(eventId) {
+                $.ajax({
+                    url: "{{ url('/get-booths') }}/" + eventId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+                        
+                        $.each(data, function(key, booth) {
+                            var isSelected = selectedBoothId == booth.id ? 'selected' : '';
+                            $('#booth_id').append('<option value="' + booth.id + '" ' + isSelected + '>' + booth.booth_name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#booth_id').empty().append('<option value="">Select Booth(s)</option>');
+            }
+        }
+    });
+    </script>
+
 @endsection

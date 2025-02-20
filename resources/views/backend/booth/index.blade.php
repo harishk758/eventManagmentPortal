@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="d-flex align-items-end my-4 gap-5">
                 <div class="button mt-lg-5">
-                    <a href="{{ route('add_booth') }}" class="btn create_btn"><span>Craete Booth</span><img
+                    <a href="{{ route('add_booth') }}" class="btn create_btn"><span>Create Booth</span><img
                             src="./assets/images/create_btn.svg" /></a>
 
                 </div>
@@ -18,10 +18,10 @@
             </div>
         @endif
             <div class="wrapper mt-lg-5">
-                <table class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table class="display table table-bordered table-hover" id="example" cellspacing="0" width="100%">
                     <thead class="table_head">
                         <tr>
-                            <th style="width:5%;">S No.</th>
+                            <th style="width:2%;">S. No.</th>
                             <th style="width:10%;">
                                 <span>Event Name</span>
                             </th>
@@ -46,20 +46,27 @@
                             <th style="width:8%;">
                                 <span>Country</span>
                             </th>
+                            <th style="width:8%;">
+                                <span>Action</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="event">
                         @foreach ($booth as $key => $item)
                         <tr>
                             <td>{{ $key + 1 }}</td>
+                            {{-- <td>{{ $item->event->event_name }}</td> --}}
                             <td>{{ $item->event ? $item->event->event_name : 'No event assigned' }}</td>
                             <td>{{ $item->booth_name}}</td>
                             <td>{{ $item->booth_cost}}</td>
                             <td>{{ $item->booth_supervisor}}</td>
                             <td>{{ $item->booth_requirements}}</td>
-                            <td>{{$item->vendor->vendor_name ?? 'Not Assigned' }}</td>
+                            <td>{{$item->vendors->vendor_name ?? 'Not Assigned' }}</td>
                             <td>
-                                {{$item->vendor->vendor_company ?? 'Not company' }}
+                                {{$item->vendors->vendor_company ?? 'Not company' }}
+                            </td>
+                            <td>
+                                {{$item->vendors->vendor_company ?? 'Not company' }}
                             </td>
                             <td>
                                 <div class="actions d-flex gap-5">

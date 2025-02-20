@@ -1,6 +1,11 @@
 @extends('backend.master')
-
 @section('content')
+
+<style>
+    .error {
+        color: red;
+    }
+</style>
     <div class="main_screen">
         <div class="top_bar d-flex align-items-center">
             <a href="{{ route('booth') }}" class="text-white">
@@ -24,7 +29,7 @@
 
         <div class="event_form p-3">
             <div class="details">
-                <form action="{{ route('booth_update', $booth->id) }}" method="POST">
+                <form action="{{ route('booth_update', $booth->id) }}" method="POST" id="booth-form-container">
                     @csrf
 
                     <div id="booth-wrapper">
@@ -108,5 +113,136 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#booth-form-container').validate({
+            rules: {
+                booth_name: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    // regex: /^[^0-9]+$/,
+                    notWhitespaceOnly: true,
+                    noLeadingOrTrailingSpaces: true,
+                    noSpecialCharsForExperience: true
+                },
+                event_id: {
+                    required: true
+                },
+                booth_size: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                    // notWhitespaceOnly: true,
+                    // noLeadingOrTrailingSpaces: true,
+                    // noSpecialCharsForExperience: true
+                },
+                booth_cost: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                    // notWhitespaceOnly: true,
+                    // noLeadingOrTrailingSpaces: true,
+                    // noSpecialCharsForExperience: true
+                },
+                booth_supervisor: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                    // notWhitespaceOnly: true,
+                    // noLeadingOrTrailingSpaces: true,
+                    // noSpecialCharsForExperience: true
+                },
+                booth_requirements: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                vendor_name: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                vendor_company: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                country_id: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                vendor_email: {
+                    required: true
+                },
+                vendor_address: {
+                    required: true
+                },
+                vendor_city: {
+                    required: true
+                },
+                booth_area: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                booth_area: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                },
+                vendor_description: {
+                    required: true,
+                    noSpecialCharsForExperience: true
+                }
+            },
+            messages: {
+                booth_name: {
+                    required: 'Booth name is required.',
+                    minlength: 'Please enter at least 3 characters.',
+                    maxlength: 'Maximum length is 20 characters.',
+                    //   regex: 'Numbers are not allowed.'
+                },
+                event_id: {
+                    required: 'Event is required'
+                },
+                booth_size: {
+                    required: 'Booth Size is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+
+                booth_cost: {
+                    required: 'Booth Cose is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                booth_supervisor: {
+                    required: 'Booth Supervisor is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                booth_requirements: {
+                    required: 'Booth Requirements is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                booth_requirements: {
+                    required: 'Booth Requirements is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                vendor_name: {
+                    required: 'Vendor Name is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                vendor_company: {
+                    required: 'Vendor Company is required',
+                    noSpecialCharsForAddress: 'Special Chars Not Allow'
+                },
+                vendor_email: {
+                    required: 'Vendor email is required'
+                },
+                vendor_address: {
+                    required: 'Vendor address is required'
+                },
+                vendor_city: {
+                    required: 'Vendor city is required'
+                },
+                booth_area: {
+                    required: 'Booth Area is required'
+                },
+                vendor_description: {
+                    required: 'Vendor Description is required'
+                }
+            }
+        });
+    </script>
 @endsection
 

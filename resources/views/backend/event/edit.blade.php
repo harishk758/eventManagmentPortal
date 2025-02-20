@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <label for="eveDescription" class="form-label">Event Description</label>
-                            <textarea class="form-control" type="text" id="eveDescription" placeholder="Enter Description" name="event_description" value="{{ $edit->event_description}}" rows="3"></textarea>
+                            <textarea class="form-control" type="text" id="eveDescription" placeholder="Enter Description" name="event_description" rows="3">{{ $edit->event_description}}</textarea>
                             @if ($errors->has('event_description'))
                                 <div class="text-danger">
                                     {{ $errors->first('event_description') }}
